@@ -1,0 +1,7 @@
+#! /usr/bin/env ruby
+line = ARGV[0] || raise("gimme line to remove")
+hosts = File.expand_path("~/.ssh/known_hosts")
+content = File.readlines(hosts)
+removed = content.delete_at line.to_i - 1
+puts "Removed:\n#{removed}"
+File.open(hosts, 'w'){|f| f.write content * ""}

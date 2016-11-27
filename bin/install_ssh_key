@@ -1,0 +1,36 @@
+#!/bin/bash
+if [ $# != 2 ]; then
+        echo "Usage: install_ssh_key.sh <host> <username>"
+        exit 1
+fi
+
+SSHHOST=$1
+SSHUSER=$2
+
+if [ ! -d ~/.ssh ] ; then
+	mkdir ~/.ssh
+fi
+if [ ! -f ~/.ssh/id_dsa ] ; then
+	echo You will now be prompted to generate a SSH key.  Create a key without passwords.
+	ssh-keygen -t dsa
+fi
+
+echo "Writing Local Configuration File"
+
+echo "" >> ~/.ssh/config
+echo "Host "$1 >> ~/.ssh/config
+echo "User "$2 >> ~/.ssh/config
+
+echo "Sending key to host and installing it, prepare to type your password"
+PUB_KEY=`cat ~/.ssh/id_dsa.pub`
+
+ssh $SSHUSER@$SSHHOST "if [ ! -d ~/.ssh ] ; then mkdir ~/.ssh; fi; chmod 700 ~/.ssh; echo '$PUB_KEY' >> ~/.ssh/authorized_keys; chmod 600 ~/.ssh/authorized_keys"
+if [ $? != 0 ] ; then
+        echo "Unable to install public key"
+        exit 1
+fi
+echo "Testing Key, if you don't see 'it works' below then ... IT DOESN'T."
+ssh $SSHUSER@$SSHHOST "echo it works"
+
+exit 0
+~
