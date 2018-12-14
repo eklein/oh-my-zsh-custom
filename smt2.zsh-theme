@@ -84,8 +84,8 @@ function git_time_since_commit() {
     fi
 }
 
-PROMPT='%{$fg[green]%}%m%{$reset_color%} %{$fg[cyan]%}%~ %{$reset_color%}%{$fg[green]%}`rbenv_prompt_info` `rvm_prompt_info``vi-git-username`%{$reset_color%}
-$(git_prompt_short_sha)$(git_prompt_info) %{$reset_color%} $(prompt_char) : '
+PROMPT='%{$fg[green]%}%m%{$reset_color%} %{$fg[cyan]%}%~ %{$reset_color%}%{$fg[green]%}`vi-git-username`%{$reset_color%}
+$(git_prompt_short_sha)$(git_prompt_info)%{$reset_color%} $(prompt_char) : '
 #%{$fg[red]%}%!
 
-RPROMPT='${return_status}$(git_time_since_commit)$(git_prompt_status)%{$reset_color%}'
+RPROMPT='${return_status}$(git_time_since_commit)$(git_prompt_status)%{$reset_color%} '

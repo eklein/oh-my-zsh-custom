@@ -54,44 +54,48 @@ alias ga='git add'
 compdef _git ga=git-add
 alias gm='git merge'
 compdef _git gm=git-merge
-alias grh='git reset HEAD'
-alias grhh='git reset HEAD --hard'
+alias grh='git reset head'
+alias grhh='git reset head --hard'
 alias gwc='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gf='git ls-files | grep'
 alias gpoat='git push origin --all && git push origin --tags'
 alias gu='git fetch upstream && git rebase upstream/master'
 
-# Will cd into the top of the current repository
+function gkb() {
+  git branch -d $1 && git push origin :${1}
+}
+
+# will cd into the top of the current repository
 # or submodule.
 alias grt='cd $(git rev-parse --show-toplevel || echo ".")'
 
-# Git and svn mix
+# git and svn mix
 alias git-svn-dcommit-push='git svn dcommit && git push github master:svntrunk'
 compdef git-svn-dcommit-push=git
 
 alias gsr='git svn rebase'
 alias gsd='git svn dcommit'
 #
-# Will return the current branch name
-# Usage example: git pull origin $(current_branch)
+# will return the current branch name
+# usage example: git pull origin $(current_branch)
 #
 function current_branch() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || \
-  ref=$(git rev-parse --short HEAD 2> /dev/null) || return
+  ref=$(git symbolic-ref head 2> /dev/null) || \
+  ref=$(git rev-parse --short head 2> /dev/null) || return
   echo ${ref#refs/heads/}
 }
 
 function current_repository() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || \
-  ref=$(git rev-parse --short HEAD 2> /dev/null) || return
+  ref=$(git symbolic-ref head 2> /dev/null) || \
+  ref=$(git rev-parse --short head 2> /dev/null) || return
   echo $(git remote -v | cut -d':' -f 2)
 }
 
-# Show local git user.name
+# show local git user.name
 function vi-git-username() {
   local -a username
 
-  username=$(git config --local --get user.name | sed -e 's/\(.\{40\}\).*/\1.../')
+  username=$(git config --local --get user.name 2> /dev/null | sed -e 's/\(.\{40\}\).*/\1.../')
   if [ -z $username ]; then
     return
   else
@@ -107,18 +111,18 @@ compdef ggpush=git
 alias ggpnp='git pull origin $(current_branch) && git push origin $(current_branch)'
 compdef ggpnp=git
 
-git config --global alias.br "branch"
-git config --global alias.co "checkout"
-git config --global alias.ci "commit"
-git config --global alias.d "diff"
-git config --global alias.dc "diff --cached"
-git config --global alias.st "status"
-git config --global alias.la "config --get-regexp alias"
+#git config --global alias.br "branch"
+#git config --global alias.co "checkout"
+#git config --global alias.ci "commit"
+#git config --global alias.d "diff"
+#git config --global alias.dc "diff --cached"
+#git config --global alias.st "status"
+#git config --global alias.la "config --get-regexp alias"
 
 __log_cmd__="log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"
 
-git config --global alias.lg "$__log_cmd__"
-git config --global alias.lga "${__log_cmd__} --all"
+#git config --global alias.lg "$__log_cmd__"
+#git config --global alias.lga "${__log_cmd__} --all"
 
 alias lg="git ${__log_cmd__}"
 alias lga="git ${__log_cmd__} --all"
