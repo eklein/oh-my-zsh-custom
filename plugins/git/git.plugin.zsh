@@ -20,7 +20,7 @@ alias gca='git commit -v -a'
 compdef _git gca=git-commit
 alias gco='git checkout'
 compdef _git gco=git-checkout
-alias gcm='git checkout master'
+alias gcm='git checkout main'
 alias gr='git remote'
 compdef _git gr=git-remote
 alias grv='git remote -v'
@@ -59,7 +59,7 @@ alias grhh='git reset head --hard'
 alias gwc='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gf='git ls-files | grep'
 alias gpoat='git push origin --all && git push origin --tags'
-alias gu='git fetch upstream && git rebase upstream/master'
+alias gu='git fetch upstream && git rebase upstream/main'
 
 function gkb() {
   git branch -d $1 && git push origin :${1}
@@ -70,7 +70,7 @@ function gkb() {
 alias grt='cd $(git rev-parse --show-toplevel || echo ".")'
 
 # git and svn mix
-alias git-svn-dcommit-push='git svn dcommit && git push github master:svntrunk'
+alias git-svn-dcommit-push='git svn dcommit && git push github main:svntrunk'
 compdef git-svn-dcommit-push=git
 
 alias gsr='git svn rebase'
